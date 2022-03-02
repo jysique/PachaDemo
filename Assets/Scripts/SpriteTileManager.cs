@@ -1,81 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SpriteTileManager : MonoBehaviour
 {
-    public static SpriteTileManager instance;
-    public TYPE typeMovement;
-    public bool withCost;
+    [SerializeField] private Transform tileSpriteContainer;
+    [SerializeField] private GameObject cityPrefab;
+
+    [Header("List Elements")]
+    private List<Node> graph;
+    private List<ClickeableSprite> clickeableSprites = new List<ClickeableSprite>();
+    private List<ClickeableSprite> candidates = new List<ClickeableSprite>();
+
+    [Header("Parameters")]
+    private int max_childs = 4;
+    private int max_add_tiers = 2;
+    
+    
+    [Header("SpriteDetails")]
     public List<Material> materials;
 
-    public List<List<int>> tiles;
-
-    public Transform tileSprite;
-    public GameObject player;
-    public GameObject cityPrefab;
-    public Button move;
-    public Button toInteract;
-    List<Node> graph;
-
-    public List<ClickeableSprite> clickeableSprites = new List<ClickeableSprite>();
-
-    public enum TYPE
-    {
-        four,
-        eight
-    }
-    private void Awake()
-    {
-        instance = this;
-    }
+    [Header("Debug")]
+    [SerializeField] private bool withCost;
+    
     private void Start()
     {
+        GameManager.instance.PlayerUnit.TileX = 0;
+        GameManager.instance.PlayerUnit.TileY = 0;
         GetAllClickeableSprite();
         InstantiateCityInClickeableSprite();
         GeneratePathFindingGraph();
-        for (int i = 0; i < clickeableSprites.Count; i++)
-        {
-            candidates.Add(clickeableSprites[i]);
-        }
-    }
-    private void Update()
-    {
-        move.interactable = !player.GetComponent<Unit>().isMoving;
-        toInteract.interactable = !player.GetComponent<Unit>().isMoving;
-    }
-    int max_childs = 4
-        ;
-    public List<ClickeableSprite> candidates = new List<ClickeableSprite>();
-    public void Interact()
-    {
-        print("nivel" + player.GetComponent<Unit>().tileX);
 
-        if (SearchSprite(player.GetComponent<Unit>().tileX, player.GetComponent<Unit>().tileY).isFounded)
-        {
-            print("ya salio nodos hijos de aqui");
-            return;
-        }
-        SearchSprite(player.GetComponent<Unit>().tileX, player.GetComponent<Unit>().tileY).isFounded = true;
-        int childs = Random.Range(2, max_childs);
-        for (int i = 0; i < candidates.Count; i++)
-        {
-            if (candidates[i].posX == player.GetComponent<Unit>().tileX + 2 && childs>0)
-            {
-                print(candidates[i].nameSprite);
-                InstantiateCityInClickeableSprite(candidates[i]);
-                candidates.RemoveAt(i);
-                childs--;
-            }
-        }
     }
-    public Node tree;
 
-    void GetAllClickeableSprite()
+    private void GetAllClickeableSprite()
     {
 
-        List<Transform> a = GetAllChildren(tileSprite);
+        List<Transform> a = GetAllChildren(tileSpriteContainer);
         for (int i = 0; i < a.Count; i++)
         {
             ClickeableSprite cs = a[i].GetComponent<ClickeableSprite>();
@@ -86,119 +47,55 @@ public class SpriteTileManager : MonoBehaviour
         {
             clickeableSprites[i].GetNeighbours();
         }
-        player.GetComponent<Unit>().tileX = 0;
-        player.GetComponent<Unit>().tileY = 0;
-    }
-
-
-    void InstantiateCityInClickeableSprite()
-    {
         for (int i = 0; i < clickeableSprites.Count; i++)
         {
-            if (clickeableSprites[i].city == ClickeableSprite.TYPE.CITY)
+            candidates.Add(clickeableSprites[i]);
+        }
+    }
+    public void Interact()
+    {
+        //print("nivel" + GameManager.instance.PlayerUnit.TileX);
+        int _x = GameManager.instance.PlayerUnit.TileX;
+        int _y = GameManager.instance.PlayerUnit.TileY;
+        if (SearchSprite(_x,_y).IsFounded)
+        {
+            print("ya salio nodos hijos de aqui");
+            return;
+        }
+        SearchSprite(_x,_y).IsFounded = true;
+        int childs = Random.Range(2, max_childs);
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            if (candidates[i].PosX == _x + max_add_tiers && childs>0)
             {
-                float x = clickeableSprites[i].transform.position.x;
-                float y = clickeableSprites[i].transform.position.y;
-                Instantiate(cityPrefab, new Vector3(x, y, 0.125f), Quaternion.identity, clickeableSprites[i].transform);
+                InstantiateCityInClickeableSprite(candidates[i]);
+                candidates.RemoveAt(i);
+                childs--;
             }
         }
     }
-    void InstantiateCityInClickeableSprite(ClickeableSprite clickeableSprite)
-    {
-        float x = clickeableSprite.transform.position.x;
-        float y = clickeableSprite.transform.position.y;
-        Instantiate(cityPrefab, new Vector3(x, y, 0.125f), Quaternion.identity, clickeableSprite.transform);
-        clickeableSprite.city = ClickeableSprite.TYPE.CITY;
-    }
 
-    public float costToEnterTile(int sourceX, int sourceY, int targetX, int targetY)
-    {
-        Tile tt = SearchSprite(targetX, targetY).tile;
-        float cost =tt.movementCost;
 
-        if (!UnitCanEnterTile(targetX, targetY))
-            return Mathf.Infinity;
 
-        if (sourceX != targetX && sourceY != targetY)
-        {
-            //permite añadir un costo adicional al mover en diagional . cosmetic thing
-            cost += 0.001f;
-        }
-
-        return cost;
-    }
-    public bool UnitCanEnterTile(int x, int y)
+    #region PATH METHODS (DIJKSTRA)
+    private bool UnitCanEnterTile(int x, int y)
     {
-        return SearchSprite(x, y).tile.isWalkable;
+        return SearchSprite(x, y).Tile.IsWalkable;
     }
-    public Vector3 TileCoordToWorldCoord(float x, float y)
-    {
-        return new Vector3(x, y, 0);
-    }
-    
-
-    public List<Transform> GetAllChildren(Transform aTransform, List<Transform> aList = null)
-    {
-        if (aList == null)
-            aList = new List<Transform>();
-        int start = aList.Count;
-        for (int n = 0; n < aTransform.childCount; n++)
-            aList.Add(aTransform.GetChild(n));
-        for (int i = start; i < aList.Count; i++)
-        {
-            var t = aList[i];
-            for (int n = 0; n < t.childCount; n++)
-                aList.Add(t.GetChild(n));
-        }
-        return aList;
-    }
-    public ClickeableSprite SearchSprite(string name)
-    {
-        for (int i = 0; i < clickeableSprites.Count; i++)
-        {
-            if (clickeableSprites[i].nameSprite == name)
-            {
-                return clickeableSprites[i];
-            }
-        }
-        //  print("no se encontro " + name );
-        return null;
-    }
-
-    public ClickeableSprite SearchSprite(int x, int y)
-    {
-        for (int i = 0; i < clickeableSprites.Count; i++)
-        {
-            if (clickeableSprites[i].posX == x && clickeableSprites[i].posY == y)
-            {
-                return clickeableSprites[i];
-            }
-        }
-        return null;
-    }
-
-    Node SearchNode(ClickeableSprite cs)
-    {
-        for (int i = 0; i < graph.Count; i++)
-        {
-            if (cs.posX == graph[i].x && cs.posY == graph[i].y)
-            {
-                return graph[i];
-            }
-        }
-        return null;
-    }
-
     Node SearchNode(int x, int y)
     {
         for (int i = 0; i < graph.Count; i++)
         {
-            if (x == graph[i].x && y == graph[i].y)
+            if (x == graph[i].X && y == graph[i].Y)
             {
                 return graph[i];
             }
         }
         return null;
+    }
+    Node SearchNode(ClickeableSprite cs)
+    {
+        return SearchNode(cs.PosX, cs.PosY);
     }
 
     public void GeneratePathFindingGraph()
@@ -208,10 +105,10 @@ public class SpriteTileManager : MonoBehaviour
         for (int i = 0; i < clickeableSprites.Count; i++)
         {
             Node node = new Node();
-            node.x = clickeableSprites[i].posX;
-            node.y = clickeableSprites[i].posY;
-            node.posX = clickeableSprites[i].transform.position.x;
-            node.posY = clickeableSprites[i].transform.position.y;
+            node.X = clickeableSprites[i].PosX;
+            node.Y = clickeableSprites[i].PosY;
+            node.PosX = clickeableSprites[i].transform.position.x;
+            node.PosY = clickeableSprites[i].transform.position.y;
             graph.Add(node);
 
         }
@@ -226,9 +123,24 @@ public class SpriteTileManager : MonoBehaviour
             }
 
         }
-        
-    }
 
+    }
+    public float CostToEnterTile(int sourceX, int sourceY, int targetX, int targetY)
+    {
+        Tile tt = SearchSprite(targetX, targetY).Tile;
+        float cost = tt.MovementCost;
+
+        if (!UnitCanEnterTile(targetX, targetY))
+            return Mathf.Infinity;
+
+        if (sourceX != targetX && sourceY != targetY)
+        {
+            //permite añadir un costo adicional al mover en diagional . cosmetic thing
+            cost += 0.001f;
+        }
+
+        return cost;
+    }
     public void DijkstraPathTo(int x, int y)
     {
 
@@ -237,15 +149,15 @@ public class SpriteTileManager : MonoBehaviour
             return;
         }
 
-        Unit unit = player.GetComponent<Unit>();
-        unit.currentPath = null;
+        Unit unit = GameManager.instance.PlayerUnit;
+        unit.SetCurrentPath(null);
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
 
         List<Node> unvisitednodes = new List<Node>();
 
-        Node source = SearchNode(unit.tileX, unit.tileY);
+        Node source = SearchNode(unit.TileX, unit.TileY);
         Node target = SearchNode(x, y);
 
         dist[source] = 0;
@@ -287,7 +199,7 @@ public class SpriteTileManager : MonoBehaviour
                 }
                 else
                 {
-                    alt = dist[u] + costToEnterTile(u.x, u.y, v.x, v.y);// neighbours with cost per tile
+                    alt = dist[u] + CostToEnterTile(u.X, u.Y, v.X, v.Y);// neighbours with cost per tile
                 }
                 if (alt < dist[v])
                 {
@@ -314,8 +226,79 @@ public class SpriteTileManager : MonoBehaviour
 
         currentPath.Reverse();
 
-        unit.currentPath = currentPath;
+        //  unit.currentPath = currentPath;
+        unit.SetCurrentPath(currentPath);
 
     }
+    #endregion
+
+
+    #region INSTANTIATE METHODS
+    private void InstantiateCityInClickeableSprite()
+    {
+        for (int i = 0; i < clickeableSprites.Count; i++)
+        {
+            if (clickeableSprites[i].City == true)
+            {
+                float x = clickeableSprites[i].transform.position.x;
+                float y = clickeableSprites[i].transform.position.y;
+                Instantiate(cityPrefab, new Vector3(x, y, 0.125f), Quaternion.identity, clickeableSprites[i].transform);
+            }
+        }
+    }
+    private void InstantiateCityInClickeableSprite(ClickeableSprite clickeableSprite)
+    {
+        float x = clickeableSprite.transform.position.x;
+        float y = clickeableSprite.transform.position.y;
+        Instantiate(cityPrefab, new Vector3(x, y, 0.125f), Quaternion.identity, clickeableSprite.transform);
+        clickeableSprite.City = true;
+    }
+    #endregion
+
+
+
+    #region SEARCH METHODS
+    private List<Transform> GetAllChildren(Transform aTransform, List<Transform> aList = null)
+    {
+        if (aList == null)
+            aList = new List<Transform>();
+        int start = aList.Count;
+        for (int n = 0; n < aTransform.childCount; n++)
+            aList.Add(aTransform.GetChild(n));
+        for (int i = start; i < aList.Count; i++)
+        {
+            var t = aList[i];
+            for (int n = 0; n < t.childCount; n++)
+                aList.Add(t.GetChild(n));
+        }
+        return aList;
+    }
+    public ClickeableSprite SearchSprite(string name)
+    {
+        for (int i = 0; i < clickeableSprites.Count; i++)
+        {
+            if (clickeableSprites[i].Name == name)
+            {
+                return clickeableSprites[i];
+            }
+        }
+        //  print("no se encontro " + name );
+        return null;
+    }
+
+    public ClickeableSprite SearchSprite(int x, int y)
+    {
+        for (int i = 0; i < clickeableSprites.Count; i++)
+        {
+            if (clickeableSprites[i].PosX == x && clickeableSprites[i].PosY == y)
+            {
+                return clickeableSprites[i];
+            }
+        }
+        return null;
+    }
+    #endregion
+
+
 
 }

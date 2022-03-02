@@ -4,16 +4,20 @@ using UnityEngine;
 [System.Serializable]
 public class Tile
 {
-    public TYPE name;
-    public GameObject prefab;
-    public bool isWalkable = true;
-    public float movementCost = 1 ;
+    [SerializeField] private TYPE name;
+    [SerializeField] private bool isWalkable = true;
+    [SerializeField] private float movementCost = 1;
+
+    public TYPE Name { get { return name; } set { name = value; } }
+    public bool IsWalkable { get { return isWalkable; } set { isWalkable = value; } }
+    public float MovementCost { get { return movementCost; } set { movementCost = value; } }
+
     
     public enum TYPE
     {
-        MOUNTAIN,
-        GRASS,
-        MUD,
-        SEA
+        MOUNTAIN =0,
+        GRASS =1,
+        MUD = 2,
+        SEA  = 3,
     }
 }

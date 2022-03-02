@@ -2,25 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using System;
 
 public class ClickeableSprite : MonoBehaviour
 {
     
-    public string nameSprite;
-   
-    public int posX;
-    public int posY;
+    [SerializeField] string nameSprite;
+    [SerializeField] private int posX;
+    [SerializeField] private int posY;
+    [SerializeField] Tile tile;
+    [SerializeField] private bool city;
+    private bool isFounded = false;
 
     public List<ClickeableSprite> neighbours;
-    public bool isFounded= false;
-    public TYPE city;
-    public enum TYPE
-    {
-        CITY,
-        NO_CITY,
-    }
+    public List<string> ng = new List<string>();
 
-    public Tile tile;
+    public bool City { get { return city; } set { city = value; } }
+    public Tile Tile { get { return tile; } }
+    public string Name { get { return nameSprite; } }
+    public int PosX { get { return posX; } }
+    public int PosY { get { return posY; } }
+    public bool IsFounded { get { return isFounded; } set { isFounded = value; } }
 
     private void Awake()
     {
@@ -30,60 +32,61 @@ public class ClickeableSprite : MonoBehaviour
     {
         PaintSprite();
     }
+    #region INIT METHODS
     void PaintSprite()
     {
-        switch (tile.name)
+        for (int i = 0; i < Enum.GetNames(typeof(Tile.TYPE)).Length; i++)
         {
-            case Tile.TYPE.MOUNTAIN:
-                transform.GetComponent<SpriteRenderer>().color = SpriteTileManager.instance.materials[1].color;
-                break;
-            case Tile.TYPE.GRASS:
-                transform.GetComponent<SpriteRenderer>().color = SpriteTileManager.instance.materials[0].color;
-                break;
-            case Tile.TYPE.MUD:
-                transform.GetComponent<SpriteRenderer>().color = SpriteTileManager.instance.materials[2].color;
-                break;
-            case Tile.TYPE.SEA:
-                transform.GetComponent<SpriteRenderer>().color = SpriteTileManager.instance.materials[3].color;
-                break;
-            default:
-                transform.GetComponent<SpriteRenderer>().color = SpriteTileManager.instance.materials[0].color;
-                break;
+            if (tile.Name.ToString() == Enum.GetNames(typeof(Tile.TYPE))[i])
+            {
+                transform.GetComponent<SpriteRenderer>().color = GameManager.instance.SpriteTileManager.materials[i].color;
+            }
         }
     }
     public void GetNeighbours()
     {
         for (int i = 0; i < ng.Count; i++)
         {
-            if (SpriteTileManager.instance.SearchSprite(ng[i]) != null)
-                neighbours.Add(SpriteTileManager.instance.SearchSprite(ng[i]));
+            if (GameManager.instance.SpriteTileManager.SearchSprite(ng[i]) != null)
+                neighbours.Add(GameManager.instance.SpriteTileManager.SearchSprite(ng[i]));
+            //neighbours.Add(SpriteTileManager.instance.SearchSprite(ng[i]));
         }
     }
 
-    public GameObject GetCity()
-    {
-        return transform.GetChild(0).gameObject;
-    }
+    #endregion
 
+    #region STATE MOUSE
     private void OnMouseUp()
     {
-        if(SpriteTileManager.instance!=null)
-            SpriteTileManager.instance.player.GetComponent<Unit>().isPathDefined = true;
+
     }
     private void OnMouseOver()
     {
-        if (city == TYPE.NO_CITY)
-        {
+        if (city == false)
             return;
-        }
         if (EventSystem.current.IsPointerOverGameObject())
             return;
-        if (!SpriteTileManager.instance.player.GetComponent<Unit>().isPathDefined)
-        {
-            SpriteTileManager.instance.GeneratePathFindingGraph();
-            SpriteTileManager.instance.DijkstraPathTo(posX, posY);
-        }
+        if (GameManager.instance.PlayerUnit.GetIsMoving())
+            return;
+        if (GameManager.instance.PlayerUnit.IsPathDefined)
+            return;
+        GameManager.instance.SpriteTileManager.GeneratePathFindingGraph();
+        GameManager.instance.SpriteTileManager.DijkstraPathTo(posX, posY);
+    }
+    private void OnMouseDown()
+    {
+        if (city == false)
+            return;
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+        if (GameManager.instance.PlayerUnit.GetIsMoving())
+            return;
+        GameManager.instance.PlayerUnit.IsPathDefined = true;
+        GameManager.instance.SpriteTileManager.DijkstraPathTo(posX, posY);
 
     }
-    public List<string> ng = new List<string>();
+
+    #endregion
+
+
 }

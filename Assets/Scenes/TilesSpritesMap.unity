@@ -171,14 +171,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 4
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
+  city: 1
+  neighbours: []
   ng:
   - map-23
   - map-30
@@ -401,14 +399,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 5
   posY: 1
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-16
   - map-17
@@ -609,14 +605,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 6
   posY: 0
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-17
   - map-18
@@ -804,14 +798,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 0
   posY: 0
-  neighbours: []
-  isFounded: 0
-  city: 0
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 1
+  neighbours: []
   ng:
   - map-08
   - map-07
@@ -1030,14 +1022,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 3
   posY: 1
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-09
   - map-06
@@ -1289,7 +1279,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 223597384}
+  - component: {fileID: 223597387}
   - component: {fileID: 223597385}
+  - component: {fileID: 223597386}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1323,20 +1315,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a28b4b8f9eedb9445abb0f9318431237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeMovement: 0
-  withCost: 1
+  tileSpriteContainer: {fileID: 969596459}
+  cityPrefab: {fileID: 7354032116456203003, guid: 7cf8de9383ff21044a5b4a6e6853f867, type: 3}
   materials:
-  - {fileID: 2100000, guid: aa489087fd93d6748a27e328e949dab2, type: 2}
   - {fileID: 2100000, guid: b6b91b788228a8942b43be2b6d6db5d1, type: 2}
+  - {fileID: 2100000, guid: aa489087fd93d6748a27e328e949dab2, type: 2}
   - {fileID: 2100000, guid: 17413c04c45aeaf4da1c7e6e8ec12ece, type: 2}
   - {fileID: 2100000, guid: 45aa777e3e418cf42a0168b248878429, type: 2}
-  tileSprite: {fileID: 969596459}
+  withCost: 1
+--- !u!114 &223597386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223597383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4faf7e89a1c4db4d953ba2df99f35a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveBtn: {fileID: 2125776304}
+  interactBtn: {fileID: 475613159}
+--- !u!114 &223597387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223597383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c714a489b0953a8439a53291eb8472f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   player: {fileID: 1671890667}
-  cityPrefab: {fileID: 7354032116456203003, guid: 7cf8de9383ff21044a5b4a6e6853f867, type: 3}
-  move: {fileID: 2125776304}
-  toInteract: {fileID: 475613159}
-  clickeableSprites: []
-  candidates: []
 --- !u!1 &245476119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1385,14 +1398,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 4
   posY: 3
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-11
   - map-10
@@ -1540,14 +1551,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 1
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
+  city: 1
+  neighbours: []
   ng: []
 --- !u!60 &265049459
 PolygonCollider2D:
@@ -1854,14 +1863,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 5
   posY: 0
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-14
   - map-16
@@ -2046,14 +2053,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 3
   posY: 2
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 0
-    prefab: {fileID: 0}
-    isWalkable: 1
+    isWalkable: 0
     movementCost: 1e+16
+  city: 0
+  neighbours: []
   ng:
   - map-05
   - map-10
@@ -2215,14 +2220,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 3
   posY: 0
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-10
   - map-16
@@ -2390,14 +2393,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 5
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 3
+  city: 1
+  neighbours: []
   ng:
   - map-20
   - map-25
@@ -2592,7 +2593,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: 365}
+  m_AnchoredPosition: {x: -20, y: 188}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &475613159
@@ -2737,14 +2738,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 0
   posY: 20
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
+  city: 1
+  neighbours: []
   ng:
   - map-24
   - map-25
@@ -2904,14 +2903,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 4
   posY: 0
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-15
   - map-16
@@ -3165,14 +3162,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 2
   posY: 2
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-03
   - map-06
@@ -3321,14 +3316,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 7
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
+  city: 1
+  neighbours: []
   ng:
   - map-23
   - map-26
@@ -3587,14 +3580,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 2
   posY: 1
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-07
   - map-09
@@ -3800,7 +3791,6 @@ RectTransform:
   m_Children:
   - {fileID: 475613158}
   - {fileID: 2125776303}
-  - {fileID: 2083794019}
   m_Father: {fileID: 93898107}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3918,14 +3908,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 4
   posY: 2
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-10
   - map-16
@@ -4095,14 +4083,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 1
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-02
   - map-08
@@ -4271,14 +4257,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 2
   posY: 3
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-02
   - map-03
@@ -4412,6 +4396,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1243242973}
+  - component: {fileID: 1243242975}
+  - component: {fileID: 1243242974}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -4434,6 +4420,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1243242974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243242972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b833583f268e1794481968f72b621792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1243242975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243242972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879d0cca9994fd644ada9dad7d916b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1359044654
 GameObject:
   m_ObjectHideFlags: 0
@@ -4482,14 +4492,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 6
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
+  city: 1
+  neighbours: []
   ng:
   - map-26
   - map-27
@@ -4695,14 +4703,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 0
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
+  city: 1
+  neighbours: []
   ng: []
 --- !u!60 &1389263703
 PolygonCollider2D:
@@ -4875,14 +4881,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 2
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-02
   - map-07
@@ -5096,14 +5100,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 2
   posY: 0
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-08
   - map-07
@@ -5279,14 +5281,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 5
   posY: 3
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-12
   - map-13
@@ -5459,14 +5459,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 0
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-02
   - map-07
@@ -5694,10 +5692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5ecaa1c7882aa419621189e835e6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileX: 0
-  tileY: 0
-  isPathDefined: 0
-  isMoving: 0
 --- !u!120 &1671890670
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -6185,14 +6179,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 3
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
+  city: 1
+  neighbours: []
   ng:
   - map-23
   - map-30
@@ -6401,14 +6393,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 4
   posY: 4
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-11
   - map-13
@@ -6523,85 +6513,6 @@ PolygonCollider2D:
       - {x: 0.85499996, y: -0.66999996}
       - {x: 0.775, y: -0.5}
       - {x: 0.66499996, y: -0.35}
---- !u!1 &2051292673
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2051292674}
-  - component: {fileID: 2051292676}
-  - component: {fileID: 2051292675}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2051292674
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2051292673}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2083794019}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2051292675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2051292673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 54
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 62
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Redefine
---- !u!222 &2051292676
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2051292673}
-  m_CullTransparentMesh: 1
 --- !u!1 &2059957017
 GameObject:
   m_ObjectHideFlags: 0
@@ -6650,14 +6561,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 4
   posY: 1
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 1
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 50
+  city: 0
+  neighbours: []
   ng:
   - map-10
   - map-15
@@ -6786,139 +6695,6 @@ PolygonCollider2D:
       - {x: -0.089999996, y: -1.385}
       - {x: 0.049999997, y: -1.275}
       - {x: 0.13, y: -1.125}
---- !u!1 &2083794018
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2083794019}
-  - component: {fileID: 2083794022}
-  - component: {fileID: 2083794021}
-  - component: {fileID: 2083794020}
-  m_Layer: 5
-  m_Name: RedefinedPath
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2083794019
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083794018}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2051292674}
-  m_Father: {fileID: 1030314653}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -22, y: 188}
-  m_SizeDelta: {x: 300, y: 150}
-  m_Pivot: {x: 1, y: 0}
---- !u!114 &2083794020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083794018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 2083794021}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1671890669}
-        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
-        m_MethodName: RedefinePath
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &2083794021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083794018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &2083794022
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083794018}
-  m_CullTransparentMesh: 1
 --- !u!1 &2109729195
 GameObject:
   m_ObjectHideFlags: 0
@@ -6967,14 +6743,12 @@ MonoBehaviour:
   nameSprite: 
   posX: 1
   posY: 2
-  neighbours: []
-  isFounded: 0
-  city: 1
   tile:
     name: 3
-    prefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
+  city: 1
+  neighbours: []
   ng:
   - map-31
   - map-24
