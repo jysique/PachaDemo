@@ -6,22 +6,23 @@ using System;
 
 public class ClickeableSprite : MonoBehaviour
 {
-    
+
     [SerializeField] string nameSprite;
     [SerializeField] private int posX;
     [SerializeField] private int posY;
-    [SerializeField] Tile tile;
-    [SerializeField] private bool city;
+    [SerializeField] private Tile tile;
+    [SerializeField] private bool isCity;
+
     private bool isFounded = false;
 
     public List<ClickeableSprite> neighbours;
     public List<string> ng = new List<string>();
 
-    public bool City { get { return city; } set { city = value; } }
-    public Tile Tile { get { return tile; } }
     public string Name { get { return nameSprite; } }
     public int PosX { get { return posX; } }
     public int PosY { get { return posY; } }
+    public Tile Tile { get { return tile; } }
+    public bool IsCity { get { return isCity; } set { isCity = value; } }
     public bool IsFounded { get { return isFounded; } set { isFounded = value; } }
 
     private void Awake()
@@ -33,7 +34,7 @@ public class ClickeableSprite : MonoBehaviour
         PaintSprite();
     }
     #region INIT METHODS
-    void PaintSprite()
+    private void PaintSprite()
     {
         for (int i = 0; i < Enum.GetNames(typeof(Tile.TYPE)).Length; i++)
         {
@@ -49,39 +50,39 @@ public class ClickeableSprite : MonoBehaviour
         {
             if (GameManager.instance.SpriteTileManager.SearchSprite(ng[i]) != null)
                 neighbours.Add(GameManager.instance.SpriteTileManager.SearchSprite(ng[i]));
-            //neighbours.Add(SpriteTileManager.instance.SearchSprite(ng[i]));
         }
     }
-
+    public void InstantiateCity()
+    {
+        float x = this.transform.position.x;
+        float y = this.transform.position.y;
+        Instantiate(GameManager.instance.SpriteTileManager.CityPrefab, new Vector3(x, y, 0.125f), Quaternion.identity, this.transform);
+    }
     #endregion
 
-    #region STATE MOUSE
-    private void OnMouseUp()
-    {
-
-    }
+    #region STATE MOUSE METHODS
     private void OnMouseOver()
     {
-        if (city == false)
+        if (isCity == false)
             return;
         if (EventSystem.current.IsPointerOverGameObject())
             return;
-        if (GameManager.instance.PlayerUnit.GetIsMoving())
+        if (GameManager.instance.PlayerManager.PlayerUnit.GetIsMoving())
             return;
-        if (GameManager.instance.PlayerUnit.IsPathDefined)
+        if (GameManager.instance.PlayerManager.PlayerUnit.IsPathDefined)
             return;
         GameManager.instance.SpriteTileManager.GeneratePathFindingGraph();
         GameManager.instance.SpriteTileManager.DijkstraPathTo(posX, posY);
     }
     private void OnMouseDown()
     {
-        if (city == false)
+        if (isCity == false)
             return;
         if (EventSystem.current.IsPointerOverGameObject())
             return;
-        if (GameManager.instance.PlayerUnit.GetIsMoving())
+        if (GameManager.instance.PlayerManager.PlayerUnit.GetIsMoving())
             return;
-        GameManager.instance.PlayerUnit.IsPathDefined = true;
+        GameManager.instance.PlayerManager.PlayerUnit.IsPathDefined = true;
         GameManager.instance.SpriteTileManager.DijkstraPathTo(posX, posY);
 
     }

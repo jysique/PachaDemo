@@ -6,30 +6,25 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] private GameObject player;
-
     private UIManager uiManager;
     private SpriteTileManager spriteTileManager;
-    private Unit playerUnit;
-    public Unit PlayerUnit { get { return playerUnit; } }
-    public SpriteTileManager SpriteTileManager
-    {
-        get { return spriteTileManager; }
-        set { spriteTileManager = value; }
-    }
+    private PlayerManager playerManager;
+
+    public SpriteTileManager SpriteTileManager { get { return spriteTileManager; } set { spriteTileManager = value; } }
     public UIManager UIManager { get { return uiManager; } }
+    public PlayerManager PlayerManager { get { return playerManager; } }
 
     private void Awake()
     {
         instance = this;
-        playerUnit = player.GetComponent<Unit>();
         uiManager = this.GetComponent<UIManager>();
         spriteTileManager = this.GetComponent<SpriteTileManager>();
+        playerManager = this.GetComponent <PlayerManager>();
     }
     private void Update()
     {
-        SetMoveBtn(playerUnit.GetIsMoving());
-        SetInteractBtn(playerUnit.GetIsMoving());
+        SetMoveBtn(playerManager.PlayerUnit.GetIsMoving());
+        SetInteractBtn(playerManager.PlayerUnit.GetIsMoving());
     }
 
     #region STATES BUTTONS

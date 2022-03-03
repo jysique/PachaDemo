@@ -12,7 +12,6 @@ public class Tile
     public bool IsWalkable { get { return isWalkable; } set { isWalkable = value; } }
     public float MovementCost { get { return movementCost; } set { movementCost = value; } }
 
-    
     public enum TYPE
     {
         MOUNTAIN =0,

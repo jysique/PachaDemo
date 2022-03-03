@@ -22,17 +22,15 @@ public class SpriteTileManager : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool withCost;
-    
+
+    public GameObject CityPrefab { get { return cityPrefab; } }
     private void Start()
     {
-        GameManager.instance.PlayerUnit.TileX = 0;
-        GameManager.instance.PlayerUnit.TileY = 0;
         GetAllClickeableSprite();
-        InstantiateCityInClickeableSprite();
+        SearchCitysInClickeableSprites();
         GeneratePathFindingGraph();
 
     }
-
     private void GetAllClickeableSprite()
     {
 
@@ -55,8 +53,8 @@ public class SpriteTileManager : MonoBehaviour
     public void Interact()
     {
         //print("nivel" + GameManager.instance.PlayerUnit.TileX);
-        int _x = GameManager.instance.PlayerUnit.TileX;
-        int _y = GameManager.instance.PlayerUnit.TileY;
+        int _x = GameManager.instance.PlayerManager.PlayerUnit.TileX;
+        int _y = GameManager.instance.PlayerManager.PlayerUnit.TileY;
         if (SearchSprite(_x,_y).IsFounded)
         {
             print("ya salio nodos hijos de aqui");
@@ -75,14 +73,12 @@ public class SpriteTileManager : MonoBehaviour
         }
     }
 
-
-
     #region PATH METHODS (DIJKSTRA)
     private bool UnitCanEnterTile(int x, int y)
     {
         return SearchSprite(x, y).Tile.IsWalkable;
     }
-    Node SearchNode(int x, int y)
+    private Node SearchNode(int x, int y)
     {
         for (int i = 0; i < graph.Count; i++)
         {
@@ -93,7 +89,7 @@ public class SpriteTileManager : MonoBehaviour
         }
         return null;
     }
-    Node SearchNode(ClickeableSprite cs)
+    private Node SearchNode(ClickeableSprite cs)
     {
         return SearchNode(cs.PosX, cs.PosY);
     }
@@ -149,7 +145,7 @@ public class SpriteTileManager : MonoBehaviour
             return;
         }
 
-        Unit unit = GameManager.instance.PlayerUnit;
+        Unit unit = GameManager.instance.PlayerManager.PlayerUnit;
         unit.SetCurrentPath(null);
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
@@ -233,25 +229,21 @@ public class SpriteTileManager : MonoBehaviour
     #endregion
 
 
-    #region INSTANTIATE METHODS
-    private void InstantiateCityInClickeableSprite()
+    #region INSTANTIATE CITYS METHODS
+    private void SearchCitysInClickeableSprites()
     {
         for (int i = 0; i < clickeableSprites.Count; i++)
         {
-            if (clickeableSprites[i].City == true)
+            if (clickeableSprites[i].IsCity == true)
             {
-                float x = clickeableSprites[i].transform.position.x;
-                float y = clickeableSprites[i].transform.position.y;
-                Instantiate(cityPrefab, new Vector3(x, y, 0.125f), Quaternion.identity, clickeableSprites[i].transform);
+                clickeableSprites[i].InstantiateCity();
             }
         }
     }
     private void InstantiateCityInClickeableSprite(ClickeableSprite clickeableSprite)
     {
-        float x = clickeableSprite.transform.position.x;
-        float y = clickeableSprite.transform.position.y;
-        Instantiate(cityPrefab, new Vector3(x, y, 0.125f), Quaternion.identity, clickeableSprite.transform);
-        clickeableSprite.City = true;
+        clickeableSprite.InstantiateCity();
+        clickeableSprite.IsCity = true;
     }
     #endregion
 

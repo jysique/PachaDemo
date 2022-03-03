@@ -12,6 +12,8 @@ public class Unit : MonoBehaviour
 
     private LineRenderer lineRenderer;
 
+    private int moveSpeed = 70;
+
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -61,6 +63,7 @@ public class Unit : MonoBehaviour
     }
     void MoveNextTileDirect()
     {
+
         //Update unit position
         tileX = currentPath[1].X;
         tileY = currentPath[1].Y;
